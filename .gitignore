@@ -2,3 +2,6 @@ kubeconfig.k3s
 cloud-init.yaml
 venv
 ssh_keys
+
+# Ansible
+roles/xanmanning.k3s

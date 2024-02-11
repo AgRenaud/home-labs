@@ -1,0 +1,41 @@
+---
+- name: Prepare
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create a Multipass VM
+      theko2fi.multipass.multipass_vm:
+        name: k3s-server
+        cpus: 2
+        memory: 2G
+        disk: 8G
+        state: started
+
+- name: Install k3s
+  hosts: k3s-server
+  become: yes
+  vars:
+    k3s_become: yes
+    k3s_release_version: testing
+  roles:
+    - role: xanmanning.k3s
+
+- name: Get Kubeconfig
+  hosts: k3s-server
+  become: yes
+  tasks:
+    - name: Copy default config
+      ansible.builtin.copy:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: /tmp/kubeconfig.k3s
+        remote_src: true
+    # - name: Change IP address
+    #   ansible.builtin.replace:
+    #     path: /tmp/kubeconfig.k3s
+    #     regexp: '127.0.0.1'
+    #     replace: '10.249.118.174' # < Get IP from multipass k3s-server's info
+    - name: Fetch kubeconfig YAML file
+      ansible.builtin.fetch:
+        src: /tmp/kubeconfig.k3s
+        dest: ../kubeconfig.k3s
+        flat: yes

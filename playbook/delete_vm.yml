@@ -1,0 +1,12 @@
+---
+- name: delete
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Delete all Multipass VM
+      theko2fi.multipass.multipass_vm:
+        name: foo
+        state: absent
+        purge: true
+    - name: Purge all deleted VM
+      theko2fi.multipass.multipass_vm_purge:

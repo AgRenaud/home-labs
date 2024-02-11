@@ -1,0 +1,6 @@
+all:
+  hosts:
+    k3s-server:
+      ansible_host: k3s-server
+      ansible_connection: theko2fi.multipass.multipass
+      ansible_python_interpreter: /usr/bin/python3

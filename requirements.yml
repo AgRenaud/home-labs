@@ -1,0 +1,5 @@
+collections:
+- name: theko2fi.multipass
+
+roles:
+- name: xanmanning.k3s
